@@ -1,7 +1,7 @@
 """Sonoff TRVZB - Zigbee Thermostatic Radiator Valve."""
 
 import zigpy.types as t
-from zigpy.zcl.foundation import BaseAttributeDefs, ZCLAttributeDef
+from zigpy.zcl.foundation import BaseAttributeDefs, DataTypeId, ZCLAttributeDef
 
 from zhaquirks.builder import (
     NumberDeviceClass,
@@ -10,6 +10,20 @@ from zhaquirks.builder import (
     UnitOfTime,
 )
 from zhaquirks.clusters import CustomCluster
+
+"""SONOFF CustomCluster specific thermostat attribute ids."""
+
+# Display Orientation, Screen Rotation
+DISPLAY_ORIENTATION_ATTR_ID = 0x0021
+
+
+class DisplayOrientation(t.enum8):
+    """Rotation of display orientation."""
+
+    Rotate_0 = 0x00
+    #Rotate_90 = 0x01
+    Rotate_180 = 0x02
+    #Rotate_270 = 0x03
 
 
 class CustomSonoffCluster(CustomCluster):
@@ -108,6 +122,12 @@ class CustomSonoffCluster(CustomCluster):
         smart_temperature_control = ZCLAttributeDef(
             id=0x6017,
             type=t.bitmap8,
+            manufacturer_code=None,
+        )
+        display_orientation = ZCLAttributeDef(
+            id=DISPLAY_ORIENTATION_ATTR_ID,
+            type=DisplayOrientation,
+            zcl_type=DataTypeId.uint8,
             manufacturer_code=None,
         )
 
@@ -237,6 +257,13 @@ class CustomSonoffCluster(CustomCluster):
         multiplier=0.01,
         translation_key="external_temperature_sensor_value",
         fallback_name="External temperature sensor value",
+    )
+    .enum(
+        attribute_name=CustomSonoffCluster.AttributeDefs.display_orientation.name,
+        enum_class=DisplayOrientation,
+        cluster_id=CustomSonoffCluster.cluster_id,
+        translation_key="display_orientation",
+        fallback_name="Display Orientation",
     )
     .add_to_registry()
 )
