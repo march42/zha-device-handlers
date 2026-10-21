@@ -31,7 +31,7 @@ from zhaquirks.clusters import CustomCluster
 # temperature in 1/100th degree celsius (3500=35.00°C)
 
 # SystemMode, Attribute ID 0x001c, enum8
-# 0x00=Anti Freeze (reports back OccupiedHeatingSetPoint 0x0012 and LocalTemperature 0x0000)
+# 0x00=Off (Anti Freeze) (reports back OccupiedHeatingSetPoint 0x0012 and LocalTemperature 0x0000)
 # 0x01=Auto (scheduler activated)
 # 0x04=Manual or Boost or Scheduled Override Active
 
