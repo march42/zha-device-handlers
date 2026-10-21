@@ -11,18 +11,101 @@ from zhaquirks.builder import (
 )
 from zhaquirks.clusters import CustomCluster
 
+"""OnOff Cluster attribute ids."""
+
+# OnOff, Attribute ID 0x0000, enum8
+# 0x00=Off
+# 0x01=On   TRVZB is in working mode
+
+"""PowerConfiguration Cluster attribute ids."""
+
+# Battery Percentage Remaining, Attribute ID 0x0021, uint8
+# in 1/2 percent 0xC8=200=100%
+
+"""Thermostat Cluster attribute ids."""
+
+# LocalTemperature, Attribute ID 0x0000, int16
+# temperature in 1/100th degree celsius (2140=21.40°C)
+
+# OccupiedHeatingSetPoint, Attribute ID 0x0012, int16
+# temperature in 1/100th degree celsius (3500=35.00°C)
+
+# SystemMode, Attribute ID 0x001c, enum8
+# 0x00=Anti Freeze (reports back OccupiedHeatingSetPoint 0x0012 and LocalTemperature 0x0000)
+# 0x01=Auto (scheduler activated)
+# 0x04=Manual or Boost or Scheduled Override Active
+
+# LocalTempreatureCalibration, Attribute ID 0x0010, int8
+# in 1/10th degree celsius (-2=-0.2°C)
+
+# Thermostat Running State, Attribute ID 0x0029, bitmap16
+# 0x01=Heating
+
 """SONOFF CustomCluster specific thermostat attribute ids."""
 
-# Display Orientation, Screen Rotation
+# Adaptive Mode, Attribute ID 0x6013, enum8
+# 0x00=Inactive (Valve opening percentage and temperature accuracy possible)
+# 0x02=Active (Valve opening based on target temperature and temperature changes)
+
+# Child Lock, Attribute ID 0x0000, Bool
+# 0x00=False (TRV can be operated)
+# 0x01=True (TRV operation blocked)
+
+# Open Window Detection, Attribute 0x6000, Bool
+# 0x00=False
+# 0x01=True (temperature drop of >1.5°C in 4.5 minutes, target temperature 12°C)
+
+# Temporary Activation Mode, Attribute ID 0x6014, uint8
+# 0x00=Boost (set 0x6015 activation time first)
+# 0x01=Scheduled (set 0x6015 activation time and 0x6016 temperature first)
+
+# Temporary Activation Time, Attibute ID 0x6015, uint32
+# activation time in seconds (900=15 minutes)
+
+# Temporary Target Temperature, Attribute ID 0x6016, int16
+# 500=5.0°C temperature in 1/100th degree celsius
+
+# ???, Attribute ID 0x6007, int16
+# 1336=???  reported after starting Boost mode
+# 1149=???  reported after starting boost
+# 1334=???  reported after stopping boost
+
+# ???, Attribute ID 0x6009, int16
+# 1500=???  reported after starting Boost mode
+
+# ???, Attribute ID 0x6008, uint8
+# 0x7f=127=???  reported after saving scheduler
+
+# Anti Freeze Temperature, Attribute ID 0x6002, int16
+# 700=7.0°C temperature in 1/100th degree celsius
+
+# Valve Opening Percentage, Attribute ID 0x600b, uint8
+# in percent 0x64=100=100%
+
+# Valve Closing Percentage, Attribute ID 0x600c, uint8
+# in percent 0x64=100=100%
+
+# Temperature Accuracy Adjust, Attribute ID 0x
+# not, if Adaptive Mode is activated
+# =-1.0°C
+# =-0.8°C
+# =-0.6°C
+# =-0.4°C
+# =-0.2°C
+# doesn't want to write with firmware 1.4.4
+
+# Display Orientation, Screen Rotation, Attribute ID 0x0021, uint8
+# 0x00=Horizontal (default)
+# 0x02=Vertikal (flipped)
 DISPLAY_ORIENTATION_ATTR_ID = 0x0021
 
 
 class DisplayOrientation(t.enum8):
     """Rotation of display orientation."""
 
-    Rotate_0 = 0x00
+    Rotate_0 = 0x00     # default orientation
     #Rotate_90 = 0x01
-    Rotate_180 = 0x02
+    Rotate_180 = 0x02   # flipped orientation
     #Rotate_270 = 0x03
 
 
